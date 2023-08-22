@@ -50,12 +50,12 @@ static int gesture_in_zoom = 0; /* for suppression of filtering of redraws: indi
 
 /******************************************************************/
 
-void XXX_gdk_draw_line(cairo_t *cr, wave_rgb_t gc, gint _x1, gint _y1, gint _x2, gint _y2)
+void XXX_gdk_draw_line(cairo_t *cr, wave_rgb_t gc, gdouble _x1, gdouble _y1, gdouble _x2, gdouble _y2)
 {
     cairo_set_source_rgba(cr, gc.r, gc.g, gc.b, gc.a);
     cairo_move_to(cr, _x1 + WAVE_CAIRO_050_OFFSET, _y1 + WAVE_CAIRO_050_OFFSET);
     cairo_line_to(cr, _x2 + WAVE_CAIRO_050_OFFSET, _y2 + WAVE_CAIRO_050_OFFSET);
-    cairo_stroke(cr);
+    //    cairo_stroke(cr); // TBD this should be once per line
 }
 
 void XXX_gdk_set_color(cairo_t *cr, wave_rgb_t gc)
@@ -63,7 +63,7 @@ void XXX_gdk_set_color(cairo_t *cr, wave_rgb_t gc)
     cairo_set_source_rgba(cr, gc.r, gc.g, gc.b, gc.a);
 }
 
-void XXX_gdk_draw_line2(cairo_t *cr, gint _x1, gint _y1, gint _x2, gint _y2)
+void XXX_gdk_draw_line2(cairo_t *cr, gdouble _x1, gdouble _y1, gdouble _x2, gdouble _y2)
 {
     cairo_move_to(cr, _x1 + WAVE_CAIRO_050_OFFSET, _y1 + WAVE_CAIRO_050_OFFSET);
     cairo_line_to(cr, _x2 + WAVE_CAIRO_050_OFFSET, _y2 + WAVE_CAIRO_050_OFFSET);
@@ -72,10 +72,10 @@ void XXX_gdk_draw_line2(cairo_t *cr, gint _x1, gint _y1, gint _x2, gint _y2)
 void XXX_gdk_draw_rectangle(cairo_t *cr,
                             wave_rgb_t gc,
                             gboolean filled,
-                            gint _x1,
-                            gint _y1,
-                            gint _w,
-                            gint _h)
+                            gdouble _x1,
+                            gdouble _y1,
+                            gdouble _w,
+                            gdouble _h)
 {
     cairo_set_source_rgba(cr, gc.r, gc.g, gc.b, gc.a);
     if (filled) {

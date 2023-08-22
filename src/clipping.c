@@ -22,7 +22,7 @@
 #define rx2 rect[2]
 #define ry2 rect[3]
 
-int wave_lineclip(int *coords, int *rect)
+int wave_lineclip(gdouble *coords, gdouble *rect)
 {
     int msk1, msk2;
 
