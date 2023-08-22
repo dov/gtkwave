@@ -136,6 +136,7 @@ void rendertraces(cairo_t *cr)
     struct wave_rgbmaster_t gc_sav;
 
     Trptr t = gw_signal_list_get_trace(GW_SIGNAL_LIST(GLOBALS->signalarea), 0);
+
     if (t) {
         Trptr tback = t;
         hptr h;
@@ -630,9 +631,9 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
                                           int which,
                                           int num_extension)
 {
-    TimeType _x0, _x1, newtime;
-    int _y0, _y1, yu, liney, yt0, yt1;
-    TimeType tim, h2tim;
+    gdouble _x0, _x1, newtime;
+    gdouble _y0, _y1, yu, liney, yt0, yt1;
+    gdouble tim, h2tim;
     hptr h2, h3;
     int endcnt = 0;
     int type;
@@ -647,6 +648,7 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
     int is_nan = 0, is_nan2 = 0, is_inf = 0, is_inf2 = 0;
     int any_infs = 0, any_infp = 0, any_infm = 0;
     int skipcnt = 0;
+    gboolean need_stroke = FALSE;
 
     ci = GLOBALS->rgb_gc.gc_baseline_wavewindow_c_1;
 
@@ -802,6 +804,7 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
 
     /* now do the actual drawing */
     h3 = NULL;
+    need_stroke = TRUE;
     for (;;) {
         if (!h)
             break;
@@ -937,8 +940,8 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
 
             /* clipping... */
             {
-                int coords[4];
-                int rect[4];
+                double coords[4];
+                double rect[4];
 
                 if (_x0 < INT_MIN) {
                     coords[0] = INT_MIN;
@@ -1010,6 +1013,7 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
                         XXX_gdk_draw_line(cr, ci, _x0 - 1, _y1, _x0 + 1, _y1);
                         XXX_gdk_draw_line(cr, ci, _x0, _y1 - 1, _x0, _y1 + 1);
                     }
+                    need_stroke = TRUE;
                 }
                 if (is_nan2) {
                     XXX_gdk_draw_line(cr, cfixed, _x0, yt0, _x1, yt0);
@@ -1025,6 +1029,7 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
                         XXX_gdk_draw_line(cr, ci, _x1, _y1 - 1, _x1, _y1 + 1);
                     }
                 }
+                need_stroke = TRUE;
             } else if ((t->flags & TR_ANALOG_INTERPOLATED) && !is_inf && !is_inf2) {
                 if (t->flags & TR_ANALOG_STEP) {
                     XXX_gdk_draw_line(cr, ci, _x0 - 1, yt0, _x0 + 1, yt0);
@@ -1041,6 +1046,7 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
                 } else {
                     XXX_gdk_draw_line(cr, cfixed, _x0, yt0, _x1, yt1);
                 }
+                need_stroke = TRUE;
             } else
             /* if(t->flags & TR_ANALOG_STEP) */
             {
@@ -1054,6 +1060,7 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
                     (TR_ANALOG_INTERPOLATED | TR_ANALOG_STEP)) {
                     XXX_gdk_draw_line(cr, ci, _x0 - 1, yt0, _x0 + 1, yt0);
                     XXX_gdk_draw_line(cr, ci, _x0, yt0 - 1, _x0, yt0 + 1);
+                    need_stroke = TRUE;
                 }
             }
         } else {
@@ -1070,6 +1077,8 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
         h = h->next;
         /* lasttype=type; */ /* scan-build */
     }
+    if (need_stroke)
+      cairo_stroke(cr);
 }
 
 /*
@@ -1127,6 +1136,7 @@ static void draw_hptr_trace_vector(cairo_t *cr, Trptr t, hptr h, int which)
                                   ? (GLOBALS->tims.last - GLOBALS->tims.start) * GLOBALS->pxns
                                   : GLOBALS->wavewidth - 1,
                               liney);
+            cairo_stroke(cr);
         }
     }
 
@@ -1702,8 +1712,8 @@ static void draw_vptr_trace_analog(cairo_t *cr, Trptr t, vptr v, int which, int 
 
             /* clipping... */
             {
-                int coords[4];
-                int rect[4];
+                gdouble coords[4];
+                gdouble rect[4];
 
                 if (_x0 < INT_MIN) {
                     coords[0] = INT_MIN;

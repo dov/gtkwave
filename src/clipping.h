@@ -15,7 +15,7 @@
 #define CLIP_UNPACK(z, a, b, c, d) do{a=z[0];b=z[1];c=z[2];d=z[3];}while(0)
 
 /* returns true if line is visible in rectangle */
-int wave_lineclip(int *coords, int *rect);
+int wave_lineclip(gdouble *coords, gdouble *rect);
 
 #endif
 
