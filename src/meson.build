@@ -101,12 +101,6 @@ gtkwave_sources = [
     'zoombuttons.c',
 ]
 
-if host_machine.system() == 'windows' 
-  windows = import('windows')
-  gtkwave_sources += windows.compile_resources('../compilation/windows/gtkwave.rc')
-endif
-
-
 gtkwave_dependencies = [
     glib_dep,
     gtk_dep,
