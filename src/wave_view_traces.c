@@ -311,6 +311,7 @@ static void draw_hptr_trace(cairo_t *cr, Trptr t, hptr h, int which, int dodraw,
                               ? (GLOBALS->tims.last - GLOBALS->tims.start) * GLOBALS->pxns
                               : GLOBALS->wavewidth - 1,
                           liney);
+        cairo_stroke(cr);
     }
 
     if ((h) && (GLOBALS->tims.start == h->time))
@@ -1060,8 +1061,8 @@ static void draw_hptr_trace_vector_analog(cairo_t *cr,
                     (TR_ANALOG_INTERPOLATED | TR_ANALOG_STEP)) {
                     XXX_gdk_draw_line(cr, ci, _x0 - 1, yt0, _x0 + 1, yt0);
                     XXX_gdk_draw_line(cr, ci, _x0, yt0 - 1, _x0, yt0 + 1);
-                    need_stroke = TRUE;
                 }
+                need_stroke = TRUE;
             }
         } else {
             newtime = (((gdouble)(_x1 + WAVE_OPT_SKIP)) * GLOBALS->nspx) +
@@ -1845,6 +1846,7 @@ static void draw_vptr_trace_analog(cairo_t *cr, Trptr t, vptr v, int which, int 
         h = h->next;
         /* lasttype=type; */
     }
+    cairo_stroke(cr);
 
     GLOBALS->tims.start += GLOBALS->shift_timebase;
     GLOBALS->tims.end += GLOBALS->shift_timebase;
@@ -2186,6 +2188,7 @@ static void draw_vptr_trace(cairo_t *cr, Trptr t, vptr v, int which)
         lasttype = type;
         h = h->next;
     }
+    cairo_stroke(cr);
 
     GLOBALS->color_active_in_filter = 0;
 

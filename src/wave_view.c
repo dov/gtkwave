@@ -117,6 +117,7 @@ static void draw_marker(GwWaveView *self, cairo_t *cr)
                                   GLOBALS->fontheight - 1,
                                   xl,
                                   GLOBALS->waveheight - 1);
+                cairo_stroke(cr);
             }
         }
     }
@@ -135,6 +136,7 @@ static void draw_marker(GwWaveView *self, cairo_t *cr)
                                   GLOBALS->fontheight - 1,
                                   xl,
                                   GLOBALS->waveheight - 1);
+                cairo_stroke(cr);
                 m1x_wavewindow_c_1 = xl;
             }
         }
@@ -155,6 +157,7 @@ static void draw_marker(GwWaveView *self, cairo_t *cr)
                                   GLOBALS->fontheight - 1,
                                   xl,
                                   GLOBALS->waveheight - 1);
+                cairo_stroke(cr);
                 m2x_wavewindow_c_1 = xl;
             }
         }
@@ -240,7 +243,6 @@ static void renderhash(GwWaveView *self, cairo_t *cr, int x, TimeType tim)
                       x + GLOBALS->cairo_050_offset,
                       GLOBALS->wavecrosspiece + GLOBALS->cairo_050_offset);
         cairo_line_to(cr, x + GLOBALS->cairo_050_offset, fhminus2 + GLOBALS->cairo_050_offset);
-        cairo_stroke(cr);
 
         hashoffset += GLOBALS->hashstep;
         dx = dx + GLOBALS->hashstep;
@@ -248,6 +250,7 @@ static void renderhash(GwWaveView *self, cairo_t *cr, int x, TimeType tim)
             iter++; /* fix any roundoff errors */
         x = dx;
     }
+    cairo_stroke(cr);
 }
 
 static void rendertimes(GwWaveView *self, cairo_t *cr)
@@ -527,6 +530,7 @@ static void render_individual_named_marker(cairo_t *cr, int i, wave_rgb_t gc, in
 
                 cairo_set_dash(cr, dashed1, sizeof(dashed1) / sizeof(dashed1[0]), 0);
                 XXX_gdk_draw_line(cr, gc, xl, GLOBALS->fontheight - 1, xl, GLOBALS->waveheight - 1);
+                cairo_stroke(cr);
                 cairo_set_dash(cr, dashed1, 0, 0);
 
                 if ((!GLOBALS->marker_names[i]) || (!GLOBALS->marker_names[i][0])) {
