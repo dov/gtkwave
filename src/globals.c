@@ -940,7 +940,7 @@ static const struct Global globals_base_values = {
     1, /* atomic_vectors 476 */
     0, /* make_vcd_save_file 477 */
     0, /* vcd_preserve_glitches 478 */
-    0, /* vcd_preserve_glitches_real */
+    1, /* vcd_preserve_glitches_real */
     NULL, /* vcd_save_handle 479 */
     NULL, /* vcd_handle_vcd_c_1 480 */
     0, /* vcd_is_compressed_vcd_c_1 481 */
